@@ -6,19 +6,21 @@ Cause Gravatar ain't got nothing on robots avatars!
 
 
 ```
-pip install -r requirements/usage.pip
+pip install flask-robohash
 ```
 
 If you want to contribute and run the tests:
 
 ```
+pip install flask-robohash
 pip install -r requirements/developing.pip
 ```
 
 ## Usage
 
 **Always initialize in your Flask app's module (file)**
-```
+
+```python
 from flask.ext.robohash import Robohash
 
 robohash = Robohash()
@@ -26,7 +28,7 @@ robohash = Robohash()
 
 **In backend code**
 
-```
+```python
 @app.route('/profile/<int:id')
 def profile_by(id):
     profile = Profile.query.get(id)
@@ -54,6 +56,6 @@ def profile():
 
 **In templates as a filter**
  
- ```
+ ```python
  {{ user.first_name | robohash }} 
  ```
