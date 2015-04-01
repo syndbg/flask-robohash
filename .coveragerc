@@ -1,0 +1,12 @@
+[run]
+source = flask_robohash
+
+[report]
+exclude_lines =
+    class Command
+    __init__
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+    if __name__ == .__main__.:

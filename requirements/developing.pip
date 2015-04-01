@@ -1,0 +1,4 @@
+-r using.pip
+coverage==3.7.1
+coveralls==0.5
+pytest==2.7.0
