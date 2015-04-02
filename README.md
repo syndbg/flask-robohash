@@ -59,3 +59,15 @@ def profile():
  ```python
  {{ user.first_name | robohash }} 
  ```
+
+
+## Robohash parameters
+
+Robohash.org doesn't reveal all of its parameters clearly, but I managed to gather them from the source code.
+
+* *INT* x - Image horizontal size
+* *INT* y - Image vertical size
+* *STR* format - 'bmp', 'jpg' or 'png'. The output of the image.
+* *STR* bgset - '1', '2' or '3' or 'any'. The available background sets.
+* *STR* size - '200x200'. Constructed by params `x` and `y`. Recommended that you use `x` and `y` instead of `size`.
+
