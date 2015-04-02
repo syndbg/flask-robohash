@@ -21,9 +21,13 @@ pip install -r requirements/developing.pip
 **Always initialize in your Flask app's module (file)**
 
 ```python
+from flask import Flask
 from flask.ext.robohash import Robohash
 
+
+app = Flask()
 robohash = Robohash()
+robohash.init_app(app)
 ```
 
 **In backend code**
