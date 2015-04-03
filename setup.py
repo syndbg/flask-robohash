@@ -3,8 +3,6 @@ from setuptools.command.test import test as TestCommand
 import os
 import sys
 
-from pip.req import parse_requirements
-
 
 VERSION = '0.0.1'
 README = None
@@ -38,26 +36,18 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
-def requirements_to_string(path):
-    raw_requirements = parse_requirements(path)
-    return [str(raw.req) for raw in raw_requirements]
-
-using_requirements = requirements_to_string('./requirements/using.pip')
-developing_requirements = requirements_to_string('./requirements/developing.pip')
-
-
 setup(
     name='flask-robohash',
     version=VERSION,
     packages=['flask_robohash'],
-    install_requires=using_requirements,
-    tests_require=developing_requirements,
+    install_requires=['Flask', 'Jinja2'],
+    tests_require=['pytest', 'coverage', 'coveralls'],
     test_suite='tests',
     include_package_data=True,
     license='MIT',
     description='robohash.org avatars that you can use with the microframework Flask.',
     long_description=README,
-    url='https://github.com/syndbg/<flask-robohash></flask-robohash>',
+    url='https://github.com/syndbg/flask-robohash',
     author='Anton Antonov',
     author_email='anton.synd.antonov@gmail.com',
     classifiers=[
