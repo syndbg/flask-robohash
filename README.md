@@ -53,7 +53,7 @@ robohash = Robohash(app=awesome_app,
 **In views(controllers)**
 
 ```python
-@app.route('/profile/<int:id')
+@app.route('/profile/<int:id>')
 def profile_by(id):
     profile = Profile.query.get(id)
     return render_template('profile.html', profile=profile)

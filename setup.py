@@ -8,6 +8,7 @@ setup(
     author='Anton Antonov',
     author_email='anton.synd.antonov@gmail.com',
     url='https://github.com/syndbg/flask-robohash',
+    download_url='https://github.com/syndbg/flask-robohash/archive/master.zip',
     version=VERSION,
     packages=['flask_robohash'],
     install_requires=['Flask', 'Jinja2'],
