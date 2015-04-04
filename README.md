@@ -1,10 +1,9 @@
 # flask-robohash
 
 [![Coverage Status](https://coveralls.io/repos/syndbg/flask-robohash/badge.svg)](https://coveralls.io/r/syndbg/flask-robohash)
-
 [![Build Status](https://travis-ci.org/syndbg/flask-robohash.svg)](https://travis-ci.org/syndbg/flask-robohash)
 
-![alt text](https://http://robohash.org/robohash?size=200x200 "Flask Robohash")
+![Flask Robohash](https://robohash.org/robohash?size=200x200 "Flask Robohash")
 
 Cause Gravatar ain't got nothing on robots avatars!
 
@@ -25,20 +24,30 @@ pip install -r requirements/developing.pip
 
 ## Usage
 
-**Always initialize in your Flask app's module (file)**
+### Always instantiate `Robohash`
 
+
+**The verbose way**
 ```python
 from flask import Flask
 from flask.ext.robohash import Robohash
 
 
 awesome_app = Flask()
-# like this
 robohash = Robohash()
 robohash.init_app(awesome_app)
+```
 
-# or just
+**or just**
+```python
 robohash = Robohash(app=awesome_app)
+```
+**but if you want default app-wide options**
+```python
+robohash = Robohash(app=awesome_app,
+                    x=128,
+                    y=128,
+                    hash_algorithm='sha256')
 ```
 
 **In views(controllers)**
@@ -80,20 +89,23 @@ def profile():
  {{ user.first_name | robohash(x=200, y=200) }}
  ```
 
+
 ## Robohash parameters
 
 Robohash.org doesn't reveal all of its parameters clearly, but I managed to gather them from the source code and add a bit more to my liking.
 
-**When creating an instance and using in template as filter**:
 
-* *INT* x (optional and default 300) - Image horizontal size
-* *INT* y (optional and default 300) - Image vertical size
-* *STR* size (optional and default 300x300) - Constructed by params `x` and `y`. If `x` and `y` are provided, they're prioritized over `size`.
-* *STR* format (optional) - 'bmp', 'jpg' or 'png'. The output of the image.
-* *STR* bgset (optional) - 'bg1', 'bg2', 'bg3', '1', '2', '3' or 'any'. The available background sets.
-* *STR* creature_type (optional) - 'robots', 'zombies', 'heads', 1, 2 or 3. The random creature to have in the image.
-* *STR* color (optional)  - The creature's color. Used to filter robots/zombies/heads by color.
-* *STR* force_hash (optional and default True) - To prevent exposing user data, hash the given `text` with `md5` by default.
-* *STR* hash_algorithm (optional and default md5) - Hashing algorithm to use if `force_hash`. Supports only those in `hashlib.algorithms_available`.
-* *STR* use_gravatar (optional and default False) - If passed `text` is a recognized email in gravatar, built link will forward to a gravatar IMG url.
-* *STR* gravatar_hashed (optional and default False) - If passed `text` is a recognized md5 email hash in gravatar, built link will forward to a gravatar IMG url.
+| Type  |  Name       |   Notes |   Default |   Optional |
+|:-:	|:-:	      |:-:	|:-:	|:-:	|
+|   STR |   text      |Used to generate a random robot/zombie/head by `robohash.org`. Should be provided to the Robohash class constructor only if you want a default image. When used with template filters, you still provide a `text` as seen in the `Usage` section.  |   flask-robohash	|   ✗	|
+|   INT |   x         |Image horizontal size|   300	|   ✔	|
+|   INT |   y         |Image vertical size  |  300 	|  ✔ 	|
+|   STR | size        |Image size as WxH. `x` and `y` are prioritized over `size` if supplied.	|  None 	|   ✔	|
+|   STR	| format      |Image format. Options are `png`, `jpg`, `bmp`   	|   None	|  ✔ 	|
+|   STR	| bgset       |Image background. Options are `any`, `1`, `2`, `3`|   None |   ✔	|
+|   STR	|creature_type|Options are `robots`, `zombies`, `heads` or just `1`, `2`, `3`.|   None|  ✔ 	|
+|   STR |   color     |Creature's color. `red`, `green`, `blue` and etc.  	|   None|   ✔	|
+|   STR	| force_hash  | To hash the provided `text` or not. Recommended left default to hide user info.  	|   True|   ✔	|
+|   STR	|hash_algorithm| The algorithm to use when hashing `text`. Supported algos are those in `hashlib.algorithms_available`  	|   md5	|   ✔	|
+|   STR	|use_gravatar| If provided `text` is a recognized Gravatar user email. Generated `robohash.org` URL will redirect to that user's Gravatar img.	|   False	|   ✔	|
+|   STR	|gravatar_hashed| If provided `text` is a recognized and already MD5 hashed as mentioned in https://en.gravatar.com/site/implement/images/ , generated robohash.org URL will redirect to that user's Gravatar img. 	|   False	|   ✔	|

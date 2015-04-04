@@ -25,6 +25,7 @@ class RoboHashTests(TestCase):
     @mock.patch('flask_robohash.Robohash.init_app')
     def test_default_settings(self, patched_init_app):
         rb = Robohash()
+        self.assertEqual(rb.text, 'flask-robohash')
         self.assertEqual(rb.size_x, Robohash.DEFAULT_SIZE_X)
         self.assertEqual(rb.size_y, Robohash.DEFAULT_SIZE_Y)
         self.assertIsNone(rb.size)
@@ -41,12 +42,13 @@ class RoboHashTests(TestCase):
 
     @mock.patch('flask_robohash.Robohash.init_app')
     def test_instantantion_with_all_kwargs(self, patched_init_app):
-        rb = Robohash(app=self.app, x=200,
+        rb = Robohash(app=self.app, text='Robots!', x=200,
                       y=200, size='300x300', format='jpg',
                       bgset=1, creature_type=1, color='red',
                       force_hash=False, hash_algorithm='sha1',
                       use_gravatar=True, gravatar_hashed=True
                       )
+        self.assertEqual(rb.text, 'Robots')
         self.assertEqual(rb.size_x, 200)
         self.assertEqual(rb.size_y, 200)
         self.assertEqual(rb.size, '300x300')

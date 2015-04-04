@@ -16,6 +16,7 @@ class Robohash(object):
     ALLOWED_CREATURE_TYPES = {'robots': 1, 'zombies': 2, 'heads': 3}
 
     def __init__(self, **kwargs):
+        self.text = kwargs.get('text', 'flask-robohash')
         self.size_x = kwargs.get('x', self.DEFAULT_SIZE_X)
         self.size_y = kwargs.get('y', self.DEFAULT_SIZE_Y)
         self.size = kwargs.get('size')
@@ -39,7 +40,6 @@ class Robohash(object):
         app.extensions['robohash'] = self
 
     def __call__(self, text, **kwargs):
-        # import pdb;pdb.set_trace()
         bgset = str(kwargs.get('bgset', self.bgset))
         color = kwargs.get('color', self.color)
         creature_type = kwargs.get('creature_type', self.creature_type)
@@ -48,6 +48,7 @@ class Robohash(object):
         gravatar_hashed = kwargs.get('gravatar_hashed', self.gravatar_hashed)
         hash_algorithm = kwargs.get('hash_algorithm', self.hash_algorithm)
         size = '{0}x{1}'.format(kwargs.get('x', self.size_x), kwargs.get('y', self.size_y)) or kwargs.get('size', self.size)
+        text = str(text) or self.text
         use_gravatar = kwargs.get('use_gravatar', self.use_gravatar)
 
         url = 'https://robohash.org/'
