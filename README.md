@@ -34,7 +34,7 @@ robohash.init_app(awesome_app)
 robohash = Robohash(app=awesome_app)
 ```
 
-**In views(controllers) **
+**In views(controllers)**
 
 ```python
 @app.route('/profile/<int:id')
