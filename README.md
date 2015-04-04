@@ -25,12 +25,16 @@ from flask import Flask
 from flask.ext.robohash import Robohash
 
 
-app = Flask()
+awesome_app = Flask()
+# like this
 robohash = Robohash()
-robohash.init_app(app)
+robohash.init_app(awesome_app)
+
+# or just
+robohash = Robohash(app=awesome_app)
 ```
 
-**In backend code**
+**In views(controllers) **
 
 ```python
 @app.route('/profile/<int:id')
@@ -45,8 +49,7 @@ def profile():
     form = ProfileCreationForm()
     if method_type == 'POST' and form.validate_on_submit():
         first_name = form.first_name.data
-        form_photo = request.files.get('photo', None)
-        photo = form_photo if form_photo else robohash(first_name)
+        photo = request.files.get('photo') or robohash(first_name)
         new_profile = Profile(first_name=first_name,
                               last_name=form.last_name.data,
                               photo=photo)
@@ -64,17 +67,24 @@ def profile():
  {{ user.first_name | robohash }} 
  ```
 
+ Or with args
+ 
+ ```python
+ {{ user.first_name | robohash(x=200, y=200) }} 
+ ```
 
 ## Robohash parameters
 
 Robohash.org doesn't reveal all of its parameters clearly, but I managed to gather them from the source code and add a bit more to my liking.
 
-* *INT* x (default 300) - Image horizontal size
-* *INT* y (default 300) - Image vertical size
-* *STR* size (default 300x300) - Constructed by params `x` and `y`. Recommended that you use `x` and `y` instead of `size`.
+**When creating an instance and using in template as filter**:
+
+* *INT* x (optional and default 300) - Image horizontal size
+* *INT* y (optional and default 300) - Image vertical size
+* *STR* size (optional and default 300x300) - Constructed by params `x` and `y`. If `x` and `y` are provided, they're prioritized over `size`.
 * *STR* format (optional) - 'bmp', 'jpg' or 'png'. The output of the image.
 * *STR* bgset (optional) - 'bg1', 'bg2', 'bg3', '1', '2', '3' or 'any'. The available background sets.
-* *STR* set (optional)  - 'robots', 'zombies', 'heads', 1, 2 or 3. What random creature type to generate.
+* *STR* creature_type (optional) - 'robots', 'zombies', 'heads', 1, 2 or 3. The random creature to have in the image.
 * *STR* color (optional)  - The creature's color. Used to filter robots/zombies/heads by color.
 * *STR* force_hash (optional and default True) - To prevent exposing user data, hash the given `text` with `md5` by default.
 * *STR* hash_algorithm (optional and default md5) - Hashing algorithm to use if `force_hash`. Supports only those in `hashlib.algorithms_available`.
