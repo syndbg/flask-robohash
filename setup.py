@@ -21,6 +21,7 @@ setup(
     author='Anton Antonov',
     author_email='anton.synd.antonov@gmail.com',
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',

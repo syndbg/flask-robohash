@@ -48,7 +48,7 @@ class RoboHashTests(TestCase):
                       force_hash=False, hash_algorithm='sha1',
                       use_gravatar=True, gravatar_hashed=True
                       )
-        self.assertEqual(rb.text, 'Robots')
+        self.assertEqual(rb.text, 'Robots!')
         self.assertEqual(rb.size_x, 200)
         self.assertEqual(rb.size_y, 200)
         self.assertEqual(rb.size, '300x300')
