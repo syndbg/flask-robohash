@@ -1,5 +1,10 @@
 import hashlib
-from unittest import mock, TestCase
+from unittest import TestCase
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 from flask import Flask, render_template_string
 from flask_robohash import Robohash

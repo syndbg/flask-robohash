@@ -11,7 +11,7 @@ setup(
     version=VERSION,
     packages=['flask_robohash'],
     install_requires=['Flask', 'Jinja2'],
-    tests_require=['coverage', 'coveralls'],
+    tests_require=['coverage', 'coveralls', 'mock'],
     test_suite='tests',
     include_package_data=True,
     license='MIT',
