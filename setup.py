@@ -1,13 +1,13 @@
 from setuptools import setup
-from setuptools.command.test import test as TestCommand
-import os
+
 VERSION = '1.0.0'
-README = None
-with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
-    README = readme.read()
+README = 'robohash.org avatars that you can use with the microframework Flask. Details at https://github.com/syndbg/flask-robohash'
 
 setup(
     name='flask-robohash',
+    author='Anton Antonov',
+    author_email='anton.synd.antonov@gmail.com',
+    url='https://github.com/syndbg/flask-robohash',
     version=VERSION,
     packages=['flask_robohash'],
     install_requires=['Flask', 'Jinja2'],
@@ -17,9 +17,6 @@ setup(
     license='MIT',
     description='robohash.org avatars that you can use with the microframework Flask.',
     long_description=README,
-    url='https://github.com/syndbg/flask-robohash',
-    author='Anton Antonov',
-    author_email='anton.synd.antonov@gmail.com',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
