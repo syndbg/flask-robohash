@@ -1,4 +1,11 @@
 # flask-robohash
+
+[![Coverage Status](https://coveralls.io/repos/syndbg/flask-robohash/badge.svg)](https://coveralls.io/r/syndbg/flask-robohash)
+
+[![Build Status](https://travis-ci.org/syndbg/flask-robohash.svg)](https://travis-ci.org/syndbg/flask-robohash)
+
+![alt text](https://http://robohash.org/robohash?size=200x200 "Flask Robohash")
+
 Cause Gravatar ain't got nothing on robots avatars!
 
 
@@ -62,15 +69,15 @@ def profile():
 
 
 **In templates as a filter**
- 
+
  ```python
- {{ user.first_name | robohash }} 
+ {{ user.first_name | robohash }}
  ```
 
  Or with args
- 
+
  ```python
- {{ user.first_name | robohash(x=200, y=200) }} 
+ {{ user.first_name | robohash(x=200, y=200) }}
  ```
 
 ## Robohash parameters
