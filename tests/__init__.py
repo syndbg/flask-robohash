@@ -73,12 +73,33 @@ class RoboHashTests(TestCase):
         self.assertEqual(rb('123'), 'https://robohash.org/123?size=200x200')
 
     def test_call_with_gravatar_kwargs(self):
+        # If both gravatar flags are used, assume the text is already hashed
         rb = Robohash(gravatar_hashed=True, use_gravatar=True)
-        hashed = hashlib.md5('123'.encode('utf-8')).hexdigest()
-        self.assertEqual(rb(hashed), 'https://robohash.org/{0}?gravatar=hashed'.format(hashed))
+        self.assertEqual(rb('123'), 'https://robohash.org/{0}?size=300x300&gravatar=hashed'.format('123'))
 
-        rb.gravatar_hashed = False
-        self.assertEqual(rb('anton.synd.antonov@gmail.com'), 'https://robohash.org/{0}?gravatar=yes'.format('anton.synd.antonov@gmail.com'))
+    def test_call_with_use_gravatar(self):
+        rb = Robohash(use_gravatar=True, force_hash=False, x=200, y=200)
+        self.assertEqual(rb('123'), 'https://robohash.org/{0}?size=200x200&gravatar=yes'.format('123'))
+
+    def test_call_with_use_gravatar_and_force_hash(self):
+        rb = Robohash(use_gravatar=True, force_hash=True, x=200, y=200)
+        hashed = hashlib.md5('123'.encode('utf-8')).hexdigest()
+        self.assertEqual(rb('123'), 'https://robohash.org/{0}?size=200x200&gravatar=hashed'.format(hashed))
+
+    def test_call_with_use_gravatar_and_custom_hash_algorithm(self):
+        # Gravatar only supports md5 hash, override users hash algorithm
+        rb = Robohash(use_gravatar=True, force_hash=True, hash_algorithm='sha1', x=200, y=200)
+        hashed = hashlib.md5('123'.encode('utf-8')).hexdigest()
+        self.assertEqual(rb('123'), 'https://robohash.org/{0}?size=200x200&gravatar=hashed'.format(hashed))        
+
+    def test_call_with_gravatar_hashed(self):
+        rb = Robohash(gravatar_hashed=True, x=200, y=200)
+        self.assertEqual(rb('123'), 'https://robohash.org/{0}?size=200x200&gravatar=hashed'.format('123'))
+
+    def test_call_with_gravatar_hashed_and_force_hash(self):
+        # Never re-hash if gravatar_hashed is used
+        rb = Robohash(gravatar_hashed=True, force_hash=True, x=200, y=200)
+        self.assertEqual(rb('123'), 'https://robohash.org/{0}?size=200x200&gravatar=hashed'.format('123'))
 
     def test_call_with_specific_hash_algorithm(self):
         rb = Robohash(hash_algorithm='sha256')
@@ -131,15 +152,6 @@ class RoboHashTests(TestCase):
                       )
         hashed = hashlib.sha1('123'.encode('utf-8')).hexdigest()
         self.assertEqual(rb('123'), 'https://robohash.org/{0}?format=jpg&size=200x200&bgset=bg1&set=1&color=red'.format(hashed))
-
-    def test_call_with_all_kwargs_should_prioritize_gravatar_ones(self):
-        rb = Robohash(app=self.app, x=200,
-                      y=200, size='300x300', format='jpg',
-                      bgset=1, creature_type=1, color='red',
-                      force_hash=False, hash_algorithm='sha1',
-                      use_gravatar=True, gravatar_hashed=False
-                      )
-        self.assertEqual(rb('anton.synd.antonov@gmail.com'), 'https://robohash.org/{0}?gravatar=yes'.format('anton.synd.antonov@gmail.com'))
 
     def test_robohash_filter_without_args(self):
         Robohash(app=self.app, force_hash=False)

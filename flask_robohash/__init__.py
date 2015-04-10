@@ -51,15 +51,25 @@ class Robohash(object):
         text = str(text) or self.text
         use_gravatar = kwargs.get('use_gravatar', self.use_gravatar)
 
+        if gravatar_hashed:
+            # Hashing already done, turn off force hash
+            force_hash = False
+            # Only use one of the gravatar flags, 
+            # if they specified gravatar_hashed turn off use_gravatar
+            use_gravatar = False
+
+        if use_gravatar:
+            # Gravatar only supports md5, overwrite anything the user supplied
+            hash_algorithm = 'md5'
+
+            if force_hash:
+                # If use_gravatar and force_hash are both True then switch over
+                # to use gravatar_hashed instead since text will get hashed
+                gravatar_hashed = True
+                use_gravatar = False
+
         url = 'https://robohash.org/'
-        if use_gravatar or gravatar_hashed:
-            url += '{0}?'.format(text)
-            if gravatar_hashed:
-                url += 'gravatar=hashed'
-            else:
-                url += 'gravatar=yes'
-            return url
-        elif force_hash and hash_algorithm in algorithms_available:
+        if force_hash and hash_algorithm in algorithms_available:
             hash_func = getattr(hashlib, hash_algorithm)
             text = hash_func(str(text).encode('utf-8')).hexdigest()
 
@@ -78,5 +88,11 @@ class Robohash(object):
             url += param if url.endswith('?') else '&{0}'.format(param)
         if color:
             param = 'color={0}'.format(color)
+            url += param if url.endswith('?') else '&{0}'.format(param)
+        if use_gravatar:
+            param = 'gravatar=yes'
+            url += param if url.endswith('?') else '&{0}'.format(param)
+        if gravatar_hashed:
+            param = 'gravatar=hashed'
             url += param if url.endswith('?') else '&{0}'.format(param)
         return url
