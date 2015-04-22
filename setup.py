@@ -1,6 +1,6 @@
 from setuptools import setup
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 README = 'robohash.org avatars that you can use with the microframework Flask. Details at https://github.com/syndbg/flask-robohash'
 
 setup(
