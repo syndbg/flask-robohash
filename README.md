@@ -10,9 +10,16 @@ Cause Gravatar ain't got nothing on robots avatars!
 
 ## Installation
 
+With PyPi:
 
 ```
 pip install flask-robohash
+```
+
+But chances are PyPi will most likely have an older version, missing files and what not (just my PyPi luck), so therefore I recommend installing iwth the git repo
+
+```
+pip install git+https://github.com/syndbg/flask-robohash.git
 ```
 
 If you want to contribute and run the tests:
